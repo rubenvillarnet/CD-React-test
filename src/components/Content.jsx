@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
 import {increment, decrement} from "../lib/redux/actions"
+import { Redirect } from 'react-router-dom'
 
 
 
-class Todos extends Component {
+class Content extends Component {
   render() {
-    console.log(this.props)
+    if(!this.props.user) return <Redirect to='/' />
     return (
       <div>
         <h1>Todos list</h1>
@@ -21,4 +22,4 @@ class Todos extends Component {
   }
 }
 
-export default connect((state => state), {increment, decrement})(Todos)
+export default connect((state => state), {increment, decrement})(Content)

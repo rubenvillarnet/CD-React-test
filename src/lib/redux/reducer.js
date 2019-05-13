@@ -1,5 +1,6 @@
 const initialStore = {
-  todos: 0
+  todos: 0,
+  user: null
 }
 
 export const rootReducer = (store = initialStore, action) => {
@@ -13,6 +14,11 @@ export const rootReducer = (store = initialStore, action) => {
        return {
         ...store,
         todos: store.todos + action.cty
+      }
+      case 'LOGIN':
+      return{
+        ...store,
+        user: action.userInfo
       }
      default:
        return store;

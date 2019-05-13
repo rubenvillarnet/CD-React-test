@@ -5,10 +5,16 @@ export const increment = () => {
   }
 }
 
-
 export const decrement = () => {
   return {
     type: "DECREMENT", 
     cty: -1
+  }
+}
+
+export const login = (userInfo) =>{
+  return {
+    type: "LOGIN",
+    userInfo
   }
 }
