@@ -1,13 +1,13 @@
-export const increment = () => {
+export const nextPage = () => {
   return {
-    type: "INCREMENT",
+    type: "NEXT_PAGE",
     cty: 1
   }
 }
 
-export const decrement = () => {
+export const prevPage = () => {
   return {
-    type: "DECREMENT", 
+    type: "PREV_PAGE", 
     cty: -1
   }
 }
