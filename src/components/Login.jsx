@@ -5,7 +5,7 @@ import {login} from "../lib/redux/actions"
 import { withRouter} from "react-router-dom"
 
 
- class Login extends Component {
+class Login extends Component {
 
 responseFacebook(response){
     this.props.login(response)
@@ -25,14 +25,9 @@ responseFacebook(response){
   }
 }
 
-const mapDispatchToProps = dispatch =>{
-  return {
-    login: loginInfo => dispatch(login(loginInfo))
-  }
+const mapDispatchToProps = {
+  login
 }
 
-const mapStateToProps = state => {
-  return { state: state };
-};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login))
+export default withRouter(connect(null, mapDispatchToProps)(Login))

@@ -60,8 +60,8 @@ class UserDetail extends Component {
 }
 
 const mapStateToProps = state => {
-  const { userInfo } = state
-  return { userInfo };
+  const { users } = state
+  return { userInfo: users.userInfo };
 };
 
 const mapDispatchToProps = {

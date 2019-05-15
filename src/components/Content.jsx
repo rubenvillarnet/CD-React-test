@@ -98,8 +98,13 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = state => {
-  const { page, user, userData, userInfo } = state
-  return { page, user, userData, userInfo };
+  const { auth, pagination, users } = state
+  return {
+    user: auth.user,
+    page: pagination.page,
+    userData: users.userData,
+    userInfo: users.userInfo
+  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Content)
