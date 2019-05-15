@@ -1,6 +1,8 @@
 const initialStore = {
   page: 1,
-  user: null
+  user: null,
+  userData: [],
+  userInfo: null
 }
 
 export const rootReducer = (store = initialStore, action) => {
@@ -19,6 +21,21 @@ export const rootReducer = (store = initialStore, action) => {
       return{
         ...store,
         user: action.userInfo
+      }
+      case 'LIST_USERS':
+      return{
+        ...store,
+        userData: action.userData
+      }
+      case 'GET_USER':
+      return{
+        ...store,
+        userInfo: action.userInfo
+      }
+      case "DISMISS_USER":
+      return{
+        ...store,
+        userInfo: action.setToNull
       }
      default:
        return store;
