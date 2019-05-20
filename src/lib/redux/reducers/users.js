@@ -2,7 +2,7 @@ import {GET_USER, DISMISS_USER, LIST_USERS} from '../action-types'
 
 const initialStore = {
   userData: [],
-  userInfo: null
+  userInfo: false
 }
 
 export const users = (store = initialStore, action) => {

@@ -1,5 +1,6 @@
 import DataProvider from "../dataProvider"
-import {NEXT_PAGE, PREV_PAGE, LOGIN, DISMISS_USER, LIST_USERS, GET_USER} from './action-types'
+import {NEXT_PAGE, PREV_PAGE, LOGIN, 
+  DISMISS_USER, LIST_USERS, GET_USER, SHOW_SNACKBAR, HIDE_SNACKBAR} from './action-types'
 
 const data = new DataProvider()
 
@@ -42,5 +43,18 @@ export const getUser = page =>{
   return dispatch => {
     return data.getUser(page)
     .then(userInfo => dispatch({type:GET_USER, userInfo: userInfo.data}))
+  }
+}
+
+export const showSnackbar = message => {
+  return{
+    type: SHOW_SNACKBAR,
+    message: message
+  }
+}
+
+export const hideSnackbar = () =>{
+  return{
+    type: HIDE_SNACKBAR
   }
 }
