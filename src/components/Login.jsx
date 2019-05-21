@@ -24,7 +24,7 @@ async responseFacebook(response){
       <Typography component="h1" variant="h4" className="login-title">React test</Typography>
         <Typography variant="body1" className="login-subtitle">Please log in to continue</Typography>
         <FacebookLogin
-          appId="662088070885226"
+          appId={process.env.REACT_APP_FB_KEY}
           autoLoad={false}
           fields="name,email,picture"
           callback={(response)=>this.responseFacebook(response)} />
