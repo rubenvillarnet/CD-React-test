@@ -1,0 +1,25 @@
+.App .Topbar {
+  flex-direction: row;
+  justify-content: center;
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1080px;
+
+    .title,
+    .welcome {
+      color: #fff;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar {
+      margin-left: 10px;
+    }
+  }
+}

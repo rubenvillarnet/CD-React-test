@@ -1,0 +1,84 @@
+.Content{
+  margin: auto;
+  margin-top: $std-margin *2;
+
+  .new-user-button {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+  }
+
+  .title{
+    margin-bottom: $std-margin;
+  }
+
+  .table-container{
+    max-width: 1080px;
+    margin: auto;
+    padding: $std-margin;
+  }
+
+  .row-title{
+    font-size: 1.1em;
+  }
+
+  .table-pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: $std-margin;
+    .hide-button{
+      opacity: 0;
+    }
+  }
+}
+
+.drawer{
+
+  .new-user-container{
+    min-width: 60vw;
+    margin: $std-margin;
+    margin-top: $std-margin *2;
+    position: relative;
+    height: 100%;
+    @extend %flex-center-column;
+    .form-container{
+      padding: $std-margin *2;
+
+      .new-user-form{
+        display: flex;
+        flex-direction: column;
+        width: 250px;
+
+        .form-control{
+          margin-bottom: 16px;
+        }
+      }
+    }
+
+    .close-button{
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+    }
+  }
+}
+.modal-overlay{
+  @extend %flex-center-column;
+  .modal-box{
+    width: 360px;
+    height: 460px;
+    padding: $std-margin;
+    margin: auto;
+  }
+}
+
+@media (max-width: 425px){
+  .table-container .paper{
+    box-shadow: none;
+    td, th{
+      border: none;
+      padding-left: 0;
+    }
+  }
+}

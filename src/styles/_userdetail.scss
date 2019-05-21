@@ -1,0 +1,17 @@
+.user-detail{
+  form{
+    display: flex;
+    flex-direction: column;
+
+    .form-control{
+      margin-bottom: $std-margin;
+    }
+
+    .update-button{
+      margin-bottom: $std-margin *2;
+    }
+  }
+  .close-button{
+    margin-left: $std-margin;
+  }
+}

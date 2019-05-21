@@ -1,0 +1,23 @@
+.Login{
+  height: 100vh;
+  background-color: $cd-grey;
+  background-image: url(https://clouddistrict.com/wp-content/uploads/2016/12/cloud-5.png);
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  @extend %flex-center-column;
+
+  .login-title{
+    color: $cd-green;
+  }
+  
+  .login-subtitle{
+    margin: $std-margin;
+  }
+  
+  .login-box{
+    height: 300px;
+    margin: $std-margin * 2;
+    padding: $std-margin * 2;
+    @extend %flex-center-column;
+  }
+}
+

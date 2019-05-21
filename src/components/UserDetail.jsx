@@ -50,7 +50,7 @@ class UserDetail extends Component {
   render() {
     const { email, first_name, last_name, avatar } = this.props.userInfo
     return (
-      <div>
+      <div className="user-detail">
         <Typography variant="h5">User info</Typography>
         <img src={avatar} alt={first_name}/>
         {this.state.edit?
@@ -73,7 +73,8 @@ class UserDetail extends Component {
         <Button
           type="submit"
           color="primary"
-          variant="contained">
+          variant="contained"
+          className="update-button">
           Update User
         </Button>
           </form>
@@ -92,6 +93,7 @@ class UserDetail extends Component {
           variant="contained"
           color="secondary"
           onClick={e => this.closeUserInfo(e)}
+          className="close-button"
           >Close</Button>
       </div>
     )

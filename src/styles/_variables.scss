@@ -1,0 +1,16 @@
+$cd-green: #3AE5EC;
+$cd-grey: #575756;
+$std-margin: 16px;
+
+%flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%flex-center-column{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

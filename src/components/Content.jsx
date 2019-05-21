@@ -1,19 +1,23 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux';
-import {nextPage, prevPage, listUsers, getUser, dismissUser, showSnackbar} from "../lib/redux/actions"
+import { connect } from 'react-redux';
+import { nextPage, prevPage, listUsers, getUser, dismissUser, showSnackbar } from "../lib/redux/actions"
 import { Redirect } from 'react-router-dom'
 import UserDetail from './UserDetail';
 import DataProvider from "../lib/dataProvider"
 
-import AppBar from '@material-ui/core/AppBar';
-import { Typography, Avatar, Toolbar, Drawer, FormControl, InputLabel, Input, Button, Paper,Table,  TableHead, TableRow, TableCell, TableBody, Modal } from '@material-ui/core';
-import Fab from '@material-ui/core/Fab';
+import {
+  Typography, Drawer, FormControl, InputLabel,
+  Input, Button, Paper, Table, TableHead, TableRow,
+  TableCell, TableBody, Modal, Fab
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
+import Topbar from './Topbar';
+import classNames from 'classnames'
 
 
 class Content extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.data = new DataProvider()
     this.state = {
@@ -21,34 +25,33 @@ class Content extends Component {
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.listUsers(this.props.page)
   }
 
-  componentDidUpdate(prevProps){
-    if(this.props.page !== prevProps.page) this.props.listUsers(this.props.page)
+  componentDidUpdate(prevProps) {
+    if (this.props.page !== prevProps.page) this.props.listUsers(this.props.page)
   }
 
-  changePage(button){
-    switch(button){
+  changePage(button) {
+    switch (button) {
       case "prev":
-      this.props.prevPage()
-      break
+        this.props.prevPage()
+        break
       case "next":
-      this.props.nextPage()
-      break
+        this.props.nextPage()
+        break
       default:
-      break
+        break
     }
   }
 
-  showUserInfo(e, id){
+  showUserInfo(e, id) {
     e.preventDefault()
     this.props.getUser(id)
   }
 
-
-  createUser(e){
+  createUser(e) {
     e.preventDefault()
     const { name, job } = e.currentTarget.elements
     this.data.newUser({
@@ -56,19 +59,19 @@ class Content extends Component {
       job: job.value
     }).then(newUserData => {
       this.toggleDrawer(false)
-      if(newUserData.status === 201){
+      if (newUserData.status === 201) {
         const timestamp = new Date(newUserData.data.createdAt)
-        const now = `${timestamp.getHours()}:${(timestamp.getMinutes()<10?'0':'')}${timestamp.getMinutes()}`
+        const now = `${timestamp.getHours()}:${(timestamp.getMinutes() < 10 ? '0' : '')}${timestamp.getMinutes()}`
         this.props.showSnackbar(`User created at ${now} with id ${newUserData.data.id}`)
-      }else{
+      } else {
         this.props.showSnackbar(`Something wrong has happened. Status: ${newUserData.status}`)
       }
     })
-    name.value= ""
-    job.value= ""
+    name.value = ""
+    job.value = ""
   }
 
-  toggleDrawer(shown){
+  toggleDrawer(shown) {
     this.setState({
       ...this.state,
       rightDrawer: shown
@@ -76,104 +79,115 @@ class Content extends Component {
   }
 
   render() {
-    if(!this.props.user) return <Redirect to='/' />
+
+    const { user, userData, userInfo} = this.props
+
+    if (!user) return <Redirect to='/' />
     return (
-      <div className="content">
-        <AppBar position="static" >
-        <Toolbar className="top-bar">
-        <Typography variant="h6" className="title">React Test</Typography>
-        <div className="user-info">
-          <Typography variant="body1" className="welcome">Welcome, {this.props.user.name}</Typography>
-          <Avatar alt={this.props.user.name} src={this.props.user.picture.data.url} className="avatar"/>
+      <React.Fragment>
+       <Topbar />
+        <div className="Content">
+          {userData.data ?
+            <div className="table-container">
+              <Typography component="h1" variant="h4" className="title">Users list</Typography>
+              <Paper className="paper">
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className="row-title">First Name</TableCell>
+                      <TableCell className="row-title">Second Name</TableCell>
+                      <TableCell className="row-title">More Info</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {userData.data.map(user => {
+                      return <TableRow key={user.id}>
+                        <TableCell>{user.first_name}</TableCell>
+                        <TableCell>{user.last_name}</TableCell>
+                        <TableCell><Button 
+                          onClick={e => this.showUserInfo(e, user.id)}
+                          color="primary"><AddIcon />Info</Button></TableCell>
+                      </TableRow>
+                    })}
+                  </TableBody>
+                </Table>
+              </Paper>
+                <div className="table-pagination">
+                <Button 
+                  variant="outlined" color="primary"
+                  onClick={() => this.changePage("prev")}
+                  className = {classNames({"hide-button": userData.page === 1})}
+                  >Prev</Button> 
+                <Typography variant="caption">Page {userData.page} of {userData.total_pages}</Typography>
+                <Button 
+                  variant="outlined" color="primary"
+                  onClick={() => this.changePage("next")}
+                  className = {classNames({"hide-button": userData.page === userData.total_pages})}
+                  >Next</Button>
+                </div>
+
+              <Fab
+                variant="extended"
+                color="primary"
+                aria-label="Add"
+                className="new-user-button"
+                onClick={() => this.toggleDrawer(true)}>
+                <AddIcon />
+                New User
+              </Fab>
+              <Drawer
+                className="drawer"
+                anchor="right"
+                open={this.state.rightDrawer}
+                onClose={() => this.toggleDrawer(false)}>
+                <div className="new-user-container">
+                  <Paper className="form-container">
+                  <Typography component="h2" variant="h6" align="center">Create new user</Typography>
+                  <form
+                    className="new-user-form"
+                    onSubmit={e => this.createUser(e)}>
+                    <FormControl className="form-control">
+                      <InputLabel htmlFor="name">Name</InputLabel>
+                      <Input
+                        type="text"
+                        id="name"
+                      />
+                    </FormControl>
+                    <FormControl className="form-control">
+                      <InputLabel htmlFor="job">Job</InputLabel>
+                      <Input
+                        type="text"
+                        id="job"
+                      />
+                    </FormControl>
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="contained">
+                      Create User
+                     </Button>
+                  </form>
+                  </Paper>
+                  <Fab
+                    color="secondary"
+                    className="close-button"
+                    onClick={() => this.toggleDrawer(false)}>
+                    <CloseIcon />
+                  </Fab>
+                </div>
+              </Drawer>
+            </div>
+            : <p>Loading...</p>}
+          <Modal
+            open={!!userInfo}
+            onClose={() => this.props.dismissUser()}
+            className="modal-overlay">
+            <Paper className="modal-box">
+              {userInfo ? <UserDetail /> : null}
+            </Paper>
+          </Modal>
         </div>
-        </Toolbar>
-        </AppBar>
-        <Typography component="h1" variant="h3" >Users list</Typography>
-        {this.props.userData.data?
-        <div>
-          <Paper>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>First Name</TableCell>
-                <TableCell>Second Name</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.props.userData.data.map(user =>{
-                return <TableRow key={user.id}>
-                  <TableCell>{user.first_name}</TableCell>
-                  <TableCell>{user.last_name}</TableCell>
-                  <TableCell><Button onClick={e => this.showUserInfo(e, user.id)}>Info</Button></TableCell>
-                </TableRow>
-              })}
-            </TableBody>
-          </Table>
-          <div>
-          <Typography variant="caption">Page {this.props.userData.page} of {this.props.userData.total_pages}</Typography>
-          {this.props.userData.page > 1? <Button onClick={()=>this.changePage("prev")}>Prev</Button>:null}
-        {this.props.userData.page < this.props.userData.total_pages? <Button onClick={()=>this.changePage("next")}>Next</Button>
-        :null}
-          </div>
-        </Paper>
-          
-        <Fab 
-          variant="extended" 
-          color="primary" 
-          aria-label="Add" 
-          className="new-user-button"
-          onClick={()=>this.toggleDrawer(true)}>
-          <AddIcon />
-          New User
-        </Fab>
-        <Drawer
-        anchor="right"
-        open={this.state.rightDrawer}
-        onClose={()=>this.toggleDrawer(false)}>
-        <div className="new-user-container">
-        <Typography component="h2" variant="h6" align="center">Create new user</Typography>
-        <form 
-          className="new-user-form"
-          onSubmit={e => this.createUser(e)}>
-        <FormControl className="form-control">
-          <InputLabel htmlFor="name">Name</InputLabel>
-          <Input 
-            type="text"
-            id="name"
-            />
-        </FormControl>
-        <FormControl className="form-control">
-          <InputLabel htmlFor="job">Job</InputLabel>
-          <Input 
-            type="text"
-            id="job"
-            />
-        </FormControl>
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained">
-          Create User
-        </Button>
-        </form>
-        <Fab 
-          color="secondary" 
-          className="close-button"
-          onClick={()=>this.toggleDrawer(false)}>
-        <CloseIcon/>
-      </Fab>
-        </div>
-        </Drawer>
-          </div>
-         :<p>Loading...</p>}
-         <Modal
-          open={!!this.props.userInfo}
-          onClose={()=> this.props.dismissUser()}>
-          <Paper>
-          {this.props.userInfo?<UserDetail />:null}
-          </Paper>
-         </Modal>
-      </div>
+      </React.Fragment>
     )
   }
 }

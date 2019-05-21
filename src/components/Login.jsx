@@ -8,19 +8,16 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 
-
-
-
 class Login extends Component {
 
-responseFacebook(response){
+async responseFacebook(response){
     this.props.login(response)
     this.props.history.push("/content")
   }
 
   render() {
     return (
-      <div className="login-container">
+      <div className="Login">
       <Paper className="login-box">
       <Typography component="h1" variant="h4" className="login-title">React test</Typography>
         <Typography variant="body1" className="login-subtitle">Please log in to continue</Typography>
@@ -40,6 +37,5 @@ responseFacebook(response){
 const mapDispatchToProps = {
   login
 }
-
 
 export default withRouter(connect(null, mapDispatchToProps)(Login))
