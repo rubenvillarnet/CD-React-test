@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { nextPage, prevPage, listUsers, getUser, dismissUser, showSnackbar } from "../lib/redux/actions"
 import { Redirect } from 'react-router-dom'
 import UserDetail from './UserDetail';
+import Topbar from './Topbar';
 import DataProvider from "../lib/dataProvider"
+import classNames from 'classnames'
+import PropTypes from 'prop-types';
+
 
 import {
   Typography, Drawer, FormControl, InputLabel,
@@ -12,8 +16,6 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
-import Topbar from './Topbar';
-import classNames from 'classnames'
 
 
 class Content extends Component {
@@ -190,6 +192,30 @@ class Content extends Component {
       </React.Fragment>
     )
   }
+}
+
+Content.propTypes = {
+  user: PropTypes.object,
+  page: PropTypes.number,
+  userData: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      first_name: PropTypes.string,
+      last_name: PropTypes.string
+    })),
+    page: PropTypes.number,
+    total_pages: PropTypes.number
+  }),
+  userInfo: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object
+  ]),
+  nextPage: PropTypes.func,
+  prevPage: PropTypes.func,
+  listUsers: PropTypes.func,
+  getUser: PropTypes.func,
+  dismissUser: PropTypes.func,
+  showSnackbar: PropTypes.func 
 }
 
 const mapDispatchToProps = {

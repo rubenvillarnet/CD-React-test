@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Snackbar, Button } from '@material-ui/core';
 import {connect} from 'react-redux'
 import {hideSnackbar} from '../lib/redux/actions'
+import PropTypes from 'prop-types';
+
+import { Snackbar, Button } from '@material-ui/core';
 
 class SnackbarBottom extends Component {
 
@@ -28,6 +30,12 @@ class SnackbarBottom extends Component {
               />
     )
   }
+}
+
+SnackbarBottom.propTypes = {
+  status: PropTypes.bool,
+  message: PropTypes.string,
+  hideSnackbar: PropTypes.func
 }
 
 const mapStateToProps = state => {

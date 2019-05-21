@@ -1,7 +1,7 @@
 import {GET_USER, DISMISS_USER, LIST_USERS} from '../action-types'
 
 const initialStore = {
-  userData: [],
+  userData: {},
   userInfo: false
 }
 

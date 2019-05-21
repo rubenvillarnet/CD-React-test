@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux';
 import {dismissUser, showSnackbar} from "../lib/redux/actions"
 import DataProvider from "../lib/dataProvider"
+import PropTypes from 'prop-types';
+
 import { Button, Typography, List, ListItem, ListItemText, FormControl, InputLabel, Input } from '@material-ui/core';
 
 
@@ -98,6 +100,17 @@ class UserDetail extends Component {
       </div>
     )
   }
+}
+
+UserDetail.propTypes = {
+  userInfo: PropTypes.shape({
+    email: PropTypes.string,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    avatar: PropTypes.string
+  }),
+  dismissUser: PropTypes.func ,
+  showSnackbar: PropTypes.func 
 }
 
 const mapStateToProps = state => {

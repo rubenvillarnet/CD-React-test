@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 
 import { AppBar, Toolbar, Typography, Avatar } from '@material-ui/core';
 
@@ -18,6 +20,13 @@ class Topbar extends Component {
       </AppBar>
     )
   }
+}
+
+Topbar.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.string,
+    picture: PropTypes.object
+  })
 }
 
 const mapStateToProps = state => {
